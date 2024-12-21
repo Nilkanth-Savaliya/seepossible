@@ -1,6 +1,18 @@
+"use client";
+import { getUser } from "@/redux/reducer/user-slice";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+
 const Header = () => {
+  const { user } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (!user) {
+      dispatch(getUser());
+    }
+  }, []);
   return (
-    <header className="shrink-0 bg-sky-200">
+    <header className="shrink-0 bg-secondary">
       <div className="w-full flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
         <div>
           <img alt="Your Company" src="/next.svg" className="h-8 w-auto" />
@@ -28,13 +40,11 @@ const Header = () => {
           </button>
         </div>
         <div className="flex items-center gap-x-8">
-          <div className="flex p-1.5">
-            <img
-              alt=""
-              src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-              className="h-8 w-8 rounded-full bg-gray"
-            />
-            <span>Aplesh Solanki</span>
+          <div className="flex p-1.5 items-center gap-2">
+            <div className="w-10 h-10 bg-primary text-white rounded-full flex items-center justify-center">
+              {user?.name?.charAt(0).toUpperCase()}
+            </div>
+            <span className="leading-none">{user?.name}</span>
           </div>
         </div>
       </div>

@@ -39,10 +39,10 @@ const Login = () => {
         //     console.log("res", res);
         //     router.push("/dashboard");
         //   });
-        const success = authenticate(formData.email, formData.password);
+        const user = authenticate(formData.email, formData.password);
 
-        if (success) {
-          Cookies.set("user-info", JSON.stringify(formData));
+        if (user) {
+          Cookies.set("user-info", JSON.stringify(user));
           router.push("/dashboard");
         } else {
           console.log("authError", authError);

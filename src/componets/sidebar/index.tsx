@@ -42,12 +42,15 @@ const Sidebar = () => {
       className="fixed top-[64px] left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0"
       aria-label="Sidebar"
     >
-      <div className="h-full px-3 py-4 overflow-y-auto bg-sky-950">
+      <div className="h-full px-3 py-4 relative overflow-y-auto bg-primary">
         <ul className="space-y-2 font-medium">
           {navigationData.map((item) => {
             return <Menu {...item} key={item.label} />;
           })}
         </ul>
+        <button className="absolute bottom-20 w-[-webkit-fill-available] left-0 px-4 py-2 text-sm mx-4 font-medium text-white bg-red-500 rounded-md">
+          Logout
+        </button>
       </div>
     </aside>
   );

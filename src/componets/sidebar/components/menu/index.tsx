@@ -8,7 +8,7 @@ const Menu = (props) => {
       {props.children ? (
         <button
           type="button"
-          className="flex items-center w-full p-2 text-base text-white transition duration-75 rounded-lg group hover:text-black hover:bg-blue-100"
+          className="flex items-center w-full p-2 text-base text-white transition duration-75 rounded-lg group hover:bg-secondary hover:text-primary"
           aria-controls="dropdown-example"
           data-collapse-toggle="dropdown-example"
           onClick={() => setIsOpen((prev) => !prev)}
@@ -36,7 +36,7 @@ const Menu = (props) => {
       ) : (
         <Link
           href={props.link ?? "/maintenance"}
-          className="flex items-center p-2 text-white rounded-lg hover:text-black hover:bg-blue-100 group"
+          className="flex items-center p-2 text-white rounded-lg hover:bg-secondary hover:text-primary group"
         >
           {props.icon}
           <span className="ms-3">{props.label}</span>
@@ -48,7 +48,7 @@ const Menu = (props) => {
             <li key={child.label}>
               <Link
                 href={child.link ?? "/maintenance"}
-                className="flex items-center w-full p-2 text-white transition duration-75 rounded-lg pl-11 group hover:text-black hover:bg-blue-100"
+                className="flex items-center w-full p-2 text-white transition duration-75 rounded-lg pl-11 group hover:bg-secondary hover:text-primary"
               >
                 {child.label}
               </Link>
@@ -60,4 +60,4 @@ const Menu = (props) => {
   );
 };
 
-export default Menu
+export default Menu;

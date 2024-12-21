@@ -13,7 +13,7 @@ const useAuth = () => {
 
     if (user) {
       setAuthError(null);
-      return true;
+      return user;
     } else {
       setAuthError("Invalid email or password.");
       return false;
