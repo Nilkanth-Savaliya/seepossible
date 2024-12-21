@@ -15,7 +15,7 @@ const initialState = {
 
 export const getProducts = createAsyncThunk(
   "product/getProducts",
-  async ({ search: q, page, pageSize: limit = 9 }, thunkAPI) => {
+  async ({ search: q='', page, pageSize: limit = 9 }, thunkAPI) => {
     try {
       const skip = (page - 1) * limit;
       const response = await new RestApi().get(
@@ -37,6 +37,30 @@ export const deleteProduct = createAsyncThunk(
   async ({ productId }, thunkAPI) => {
     try {
       const response = await new RestApi().delete(`products/${productId}`);
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const createProduct = createAsyncThunk(
+  "product/createProduct",
+  async ({ data }, thunkAPI) => {
+    try {
+      const response = await new RestApi().post("products/add", data);
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const updateProduct = createAsyncThunk(
+  "product/updateProduct",
+  async ({ data, id }, thunkAPI) => {
+    try {
+      const response = await new RestApi().put(`products/${id}`, data);
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data);

@@ -25,14 +25,12 @@ const Login = () => {
     (e: React.FormEvent) => {
       e.preventDefault();
       resetErrors();
-      console.log("Form submitted successfully:", formData);
       let isValid = true;
       // Object.entries(formData).forEach(([field, value]) => {
       if (!validate("email", formData?.email)) isValid = false;
       // });
 
       if (isValid) {
-        console.log("Form submitted successfully:", formData);
         // dispatch(login(formData))
         //   .unwrap()
         //   .then((res) => {

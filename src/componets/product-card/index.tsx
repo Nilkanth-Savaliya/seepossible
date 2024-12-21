@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { deleteProduct, getProducts } from "@/redux/reducer/product-slice";
 import Alert from "../alert-message";
 
-const ProductCard = ({ product }) => {
+const ProductCard = ({ product, handleEdit }) => {
   const [open, setOpen] = useState(false);
   const [alert, setAlert] = useState(null);
   const { current_page, pageSize, search } = useSelector(
@@ -99,6 +99,7 @@ const ProductCard = ({ product }) => {
         <a
           href={product.href}
           className="relative flex items-center justify-center rounded-md border border-transparent bg-gray-100 px-8 py-2 text-sm font-medium text-gray-900 hover:bg-gray-200 w-full"
+          onClick={() => handleEdit(product)}
         >
           Edit
         </a>
