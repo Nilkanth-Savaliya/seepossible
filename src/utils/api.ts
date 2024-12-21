@@ -29,15 +29,11 @@ export default class RestApi {
 
   constructor() {
     this.api = axios.create({
-      baseURL: "http://localhost:3016/v1",
+      baseURL: "https://dummyjson.com/",
     });
 
     this.api.interceptors.request.use(
       (config) => {
-        const authToken = Cookies.get("auth-token");
-        if (authToken) {
-          config.headers.Authorization = `Bearer ${authToken}`;
-        }
         return config;
       },
       (error) => {
