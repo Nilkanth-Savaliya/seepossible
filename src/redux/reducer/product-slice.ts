@@ -15,8 +15,9 @@ const initialState = {
 
 export const getProducts = createAsyncThunk(
   "product/getProducts",
-  async ({ search: q, page: skip = 1, pageSize: limit = 9 }, thunkAPI) => {
+  async ({ search: q, page, pageSize: limit = 9 }, thunkAPI) => {
     try {
+      const skip = (page - 1) * limit;
       const response = await new RestApi().get(
         `products/search?${new URLSearchParams({
           q,
@@ -68,8 +69,6 @@ const productSlice = createSlice({
       .addCase(getProducts.fulfilled, (state, action) => {
         state.products = action.payload.products;
         state.total = action.payload.total;
-        state.pageSize = action.payload.limit;
-        state.current_page = action.payload.skip;
         state.loading = false;
       })
       .addCase(getProducts.rejected, (state, action) => {

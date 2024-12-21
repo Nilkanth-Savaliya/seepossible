@@ -1,96 +1,81 @@
-import React, { useState } from "react";
+import { usePagination } from "@/hooks/usePagination";
+import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
 
 interface PaginationProps {
-  totalPages: number;
-  rowsPerPage: number;
-  page: number;
-  onPageChange: (pageNumber: number) => void;
-  onRowsPerPageChange: (rowsPerPage: number) => void;
+  current_page: number;
+  total: number;
+  pageSize: number;
+  handlePageChange: (page: number) => void;
 }
 
-const Pagination: React.FC<PaginationProps> = ({
-  totalPages,
-  rowsPerPage,
-  page,
-  onPageChange,
-  onRowsPerPageChange,
-}) => {
+export default function Pagination({
+  current_page,
+  total,
+  pageSize,
+  handlePageChange,
+}: PaginationProps) {
+  const { pageNumbers, isPreviousDisabled, isNextDisabled } = usePagination({
+    total,
+    currentPage: current_page,
+    pageSize,
+  });
 
-  const handlePageChange = (pageNumber: number) => {
-    onPageChange(pageNumber);
+  const handlePrevious = () => {
+    if (!isPreviousDisabled) handlePageChange(current_page - 1);
   };
 
-  const handleFirstPage = () => {
-    handlePageChange(1);
+  const handleNext = () => {
+    if (!isNextDisabled) handlePageChange(current_page + 1);
   };
 
-  const handleLastPage = () => {
-    handlePageChange(totalPages);
-  };
-
-  const handlePrevPage = () => {
-    if (page > 1) {
-      handlePageChange(page - 1);
-    }
-  };
-
-  const handleNextPage = () => {
-    if (page < totalPages) {
-      handlePageChange(page + 1);
-    }
-  };
-
-  const handleRowsPerPageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    handlePageChange(1);
-    onRowsPerPageChange(Number(e.target.value));
+  const handlePageNumber = (pageNumber: number) => {
+    handlePageChange(pageNumber);
   };
 
   return (
-    <div className="flex gap-6 py-6">
-      <button
-        onClick={handleFirstPage}
-        disabled={page === 1}
-        className="bg-gray-400 rounded-lg py-1 px-3 text-white"
-      >
-        First
-      </button>
-      <button
-        onClick={handlePrevPage}
-        disabled={page === 1}
-        className="bg-gray-400 rounded-lg py-1 px-3 text-white"
-      >
-        Prev
-      </button>
-      <span>
-        {page} / {totalPages}
-      </span>
-      <button
-        onClick={handleNextPage}
-        disabled={page === totalPages}
-        className="bg-gray-400 rounded-lg py-1 px-3 text-white"
-      >
-        Next
-      </button>
-      <button
-        onClick={handleLastPage}
-        disabled={page === totalPages}
-        className="bg-gray-400 rounded-lg py-1 px-3 text-white"
-      >
-        Last
-      </button>
-      <select
-        value={rowsPerPage}
-        onChange={handleRowsPerPageChange}
-        className="border border-gray-400 rounded-lg py-1 px-3 mr-2"
-      >
-        <option value="5">5</option>
-        <option value="10">10</option>
-        <option value="20">20</option>
-        <option value="50">50</option>
-      </select>
-      <span>Items per page</span>
+    <div className="flex justify-center">
+      <div className="flex items-center justify-between border-t border-gray-200 px-4 py-3 sm:px-6">
+        <div className="hidden cursor-pointer sm:flex sm:flex-1 sm:items-center sm:justify-between">
+          <div>
+            <nav
+              className="isolate inline-flex -space-x-px rounded-md shadow-sm"
+              aria-label="Pagination"
+            >
+              <span
+                onClick={handlePrevious}
+                className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-white focus:z-20 focus:outline-offset-0 ${
+                  isPreviousDisabled ? "cursor-not-allowed opacity-50" : ""
+                }`}
+              >
+                <span className="sr-only">Previous</span>
+                <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
+              </span>
+              {pageNumbers.map((pageNumber) => (
+                <span
+                  key={pageNumber}
+                  onClick={() => handlePageNumber(pageNumber)}
+                  className={`relative inline-flex items-center px-4 py-2 text-sm font-medium ring-1 ring-inset ring-gray-300 hover:bg-gray-100 hover:text-primary focus:z-10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary ${
+                    pageNumber === current_page
+                      ? "z-10 bg-primary text-white"
+                      : "text-gray-700"
+                  }`}
+                >
+                  {pageNumber}
+                </span>
+              ))}
+              <span
+                onClick={handleNext}
+                className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-white focus:z-20 focus:outline-offset-0 ${
+                  isNextDisabled ? "cursor-not-allowed opacity-50" : ""
+                }`}
+              >
+                <span className="sr-only">Next</span>
+                <ChevronRightIcon className="h-5 w-5" aria-hidden="true" />
+              </span>
+            </nav>
+          </div>
+        </div>
+      </div>
     </div>
   );
-};
-
-export default Pagination;
+}

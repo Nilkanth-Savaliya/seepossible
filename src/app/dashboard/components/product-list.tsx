@@ -1,13 +1,14 @@
 "use client";
 
 import Alert from "@/componets/alert-message";
+import Pagination from "@/componets/pagination";
 import ProductCard from "@/componets/product-card";
-import { getProducts } from "@/redux/reducer/product-slice";
+import { getProducts, setProductCurrentPage } from "@/redux/reducer/product-slice";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 const ProductList = () => {
-  const { products, isLoading, isError, current_page, pageSize, search } =
+  const { products, isLoading, total, current_page, pageSize, search } =
     useSelector((state) => state.products);
   const [alert, setAlert] = useState(null);
 
@@ -36,6 +37,11 @@ const ProductList = () => {
       });
   }, [current_page, search]);
 
+  const handlePageChange = (newPage) => {
+    if (newPage < 1 || newPage > Math.ceil(total / pageSize)) return
+    dispatch(setProductCurrentPage(newPage))
+  }
+
   return (
     <>
       {alert && (
@@ -56,6 +62,12 @@ const ProductList = () => {
           </div>
         </div>
       </div>
+      <Pagination
+        current_page={current_page}
+        pageSize={pageSize}
+        total={total}
+        handlePageChange={handlePageChange}
+      />
     </>
   );
 };

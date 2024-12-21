@@ -12,7 +12,7 @@ const Header = () => {
     }
   }, []);
   return (
-    <header className="shrink-0 bg-secondary">
+    <header className="shrink-0 bg-secondary fixed w-full z-10 top-0">
       <div className="w-full flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
         <div>
           <img alt="Your Company" src="/next.svg" className="h-8 w-auto" />
