@@ -1,13 +1,30 @@
-import { forwardRef } from "react";
+import { InputHTMLAttributes } from "react";
 import { twMerge } from "tailwind-merge";
 
-const TextField = ({ label, placeholder, type, error, name, ...rest }) => {
+interface TextFieldProps extends InputHTMLAttributes<HTMLInputElement> {
+  label?: string;
+  placeholder?: string;
+  type?: string;
+  error?: string;
+  name: string;
+}
+
+const TextField = ({
+  label,
+  placeholder,
+  type = "text",
+  error,
+  name,
+  ...rest
+}: TextFieldProps) => {
   return (
     <div>
       <label>
-        <p className="mb-1 cursor-pointer text-xs font-semibold text-gray-600">
-          {label}
-        </p>
+        {label && (
+          <p className="mb-1 cursor-pointer text-xs font-semibold text-gray-600">
+            {label}
+          </p>
+        )}
         <input
           type={type}
           placeholder={placeholder}
