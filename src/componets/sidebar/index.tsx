@@ -1,7 +1,10 @@
 "use client";
+import { useRouter } from "next/navigation";
 import Menu from "./components/menu";
+import Cookies from "js-cookie";
 
 const Sidebar = () => {
+  const router = useRouter();
   const navigationData = [
     {
       label: "Dashboard",
@@ -36,6 +39,11 @@ const Sidebar = () => {
     },
   ];
 
+  const handleLogout = () => {
+    Cookies.remove("user-info");
+    router.push("/login");
+  };
+
   return (
     <aside
       id="sidebar-multi-level-sidebar"
@@ -48,7 +56,10 @@ const Sidebar = () => {
             return <Menu {...item} key={item.label} />;
           })}
         </ul>
-        <button className="absolute bottom-20 w-[-webkit-fill-available] left-0 px-4 py-2 text-sm mx-4 font-medium text-white bg-red-500 rounded-md">
+        <button
+          className="absolute bottom-20 w-[-webkit-fill-available] left-0 px-4 py-2 text-sm mx-4 font-medium text-white bg-red-500 rounded-md"
+          onClick={handleLogout}
+        >
           Logout
         </button>
       </div>
