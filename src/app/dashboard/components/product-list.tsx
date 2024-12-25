@@ -49,7 +49,7 @@ const ProductList = () => {
         });
     }, 500);
     return () => clearTimeout(debounceTimeout);
-  }, [current_page, searchTerm]);
+  }, [current_page, searchTerm, dispatch, pageSize]);
 
   const handlePageChange = (newPage) => {
     if (newPage < 1 || newPage > Math.ceil(total / pageSize)) return;

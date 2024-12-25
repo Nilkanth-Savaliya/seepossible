@@ -24,29 +24,20 @@ const Login = () => {
       e.preventDefault();
       resetErrors();
       let isValid = true;
-      // Object.entries(formData).forEach(([field, value]) => {
       if (!validate("email", formData?.email)) isValid = false;
-      // });
 
       if (isValid) {
-        // dispatch(login(formData))
-        //   .unwrap()
-        //   .then((res) => {
-        //     console.log("res", res);
-        //     router.push("/dashboard");
-        //   });
         const user = authenticate(formData.email, formData.password);
 
         if (user) {
           Cookies.set("user-info", JSON.stringify(user));
           router.push("/dashboard");
         } else {
-          console.log("authError", authError);
           setFormData({ email: "", password: "" });
         }
       }
     },
-    [resetErrors, formData, validate, authenticate, router, authError]
+    [resetErrors, formData, validate, authenticate, router]
   );
 
   return (

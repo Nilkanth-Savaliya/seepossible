@@ -28,24 +28,20 @@ const Signup = () => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
-  console.log("errors", errors);
   const handleSubmit = useCallback(
     (e: React.FormEvent) => {
       e.preventDefault();
       resetErrors();
-      console.log("Form submitted successfully:", formData);
       let isValid = true;
       Object.entries(formData).forEach(([field, value]) => {
         if (!validate(field, value, formData.password)) isValid = false;
       });
 
       if (isValid) {
-        console.log("Form submitted successfully:", formData);
         delete formData.confirmPassword;
         dispatch(signup(formData))
           .unwrap()
           .then((res) => {
-            console.log("res", res);
             router.push("/dashboard");
           });
       }

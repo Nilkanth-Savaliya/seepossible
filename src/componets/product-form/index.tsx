@@ -36,7 +36,6 @@ const ProductForm = ({
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Form submitted successfully:", formData);
     if (isEditProduct) {
       updateProductFunction(currentProduct.id, formData);
     } else {
