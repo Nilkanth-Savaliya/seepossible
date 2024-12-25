@@ -26,23 +26,23 @@ export const login = createAsyncThunk(
 
 export const signup = createAsyncThunk(
   "user/signup",
-  async (payload, thunkAPI) => {
+  async (payload: { email: string; password: string }, thunkAPI) => {
     try {
       const users = JSON.parse(localStorage.getItem("users") || "[]");
-      users.push(payload);
       const user = users.find(
         (user: { email: string; password: string }) =>
-          user.email === payload.email || user.password === payload.password
+          user.email === payload.email
       );
       if (user) {
         throw new Error("User already exists");
       }
+      users.push(payload);
       Cookies.set("user-info", JSON.stringify(payload));
       localStorage.setItem("users", JSON.stringify(users));
       return payload;
     } catch (error) {
       console.error("Error occurred during signup:", error);
-      thunkAPI.rejectWithValue(error);
+      return thunkAPI.rejectWithValue(error);
     }
   }
 );

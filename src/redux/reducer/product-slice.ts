@@ -5,7 +5,7 @@ const initialState = {
   products: [],
   isEditProduct: false,
   currentProduct: null,
-  search: [],
+  search: "",
   current_page: 1,
   pageSize: 9,
   total: 0,
@@ -13,16 +13,37 @@ const initialState = {
   error: null,
 };
 
-export const getProducts = createAsyncThunk(
+interface GetProductsParams {
+  search?: string;
+  page: number;
+  pageSize?: number;
+}
+
+interface Product {
+  id: number;
+  name: string;
+  price: number;
+  // Add other product properties here
+}
+
+interface GetProductsResponse {
+  products: Product[];
+  total: number;
+}
+
+export const getProducts = createAsyncThunk<
+  GetProductsResponse,
+  GetProductsParams
+>(
   "product/getProducts",
-  async ({ search: q='', page, pageSize: limit = 9 }, thunkAPI) => {
+  async ({ search: q = "", page, pageSize: limit = 9 }, thunkAPI) => {
     try {
       const skip = (page - 1) * limit;
-      const response = await new RestApi().get(
+      const response: { data: GetProductsResponse } = await new RestApi().get(
         `products/search?${new URLSearchParams({
           q,
-          skip,
-          limit,
+          skip: skip.toString(),
+          limit: limit.toString(),
         })}`
       );
       return response.data;
@@ -32,23 +53,38 @@ export const getProducts = createAsyncThunk(
   }
 );
 
-export const deleteProduct = createAsyncThunk(
+interface DeleteProductParams {
+  productId: number;
+}
+
+interface CreateProductParams {
+  data: Product;
+}
+
+interface UpdateProductParams {
+  data: Partial<Product>;
+  id: number;
+}
+
+export const deleteProduct = createAsyncThunk<void, DeleteProductParams>(
   "product/deleteProduct",
   async ({ productId }, thunkAPI) => {
     try {
-      const response = await new RestApi().delete(`products/${productId}`);
-      return response.data;
+      await new RestApi().delete(`products/${productId}`);
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data);
     }
   }
 );
 
-export const createProduct = createAsyncThunk(
+export const createProduct = createAsyncThunk<Product, CreateProductParams>(
   "product/createProduct",
   async ({ data }, thunkAPI) => {
     try {
-      const response = await new RestApi().post("products/add", data);
+      const response: { data: Product } = await new RestApi().post(
+        "products/add",
+        data
+      );
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data);
@@ -56,11 +92,14 @@ export const createProduct = createAsyncThunk(
   }
 );
 
-export const updateProduct = createAsyncThunk(
+export const updateProduct = createAsyncThunk<Product, UpdateProductParams>(
   "product/updateProduct",
   async ({ data, id }, thunkAPI) => {
     try {
-      const response = await new RestApi().put(`products/${id}`, data);
+      const response: { data: Product } = await new RestApi().put(
+        `products/${id}`,
+        data
+      );
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data);

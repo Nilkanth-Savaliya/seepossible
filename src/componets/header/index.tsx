@@ -1,11 +1,11 @@
 "use client";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { getUser } from "@/redux/reducer/user-slice";
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
 
 const Header = () => {
-  const { user } = useSelector((state) => state.user);
-  const dispatch = useDispatch();
+  const { user } = useAppSelector((state) => state.user);
+  const dispatch = useAppDispatch();
   useEffect(() => {
     if (!user) {
       dispatch(getUser());

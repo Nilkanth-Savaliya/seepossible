@@ -1,17 +1,17 @@
 import { TrashIcon } from "@heroicons/react/24/outline";
 import AlertModal from "../alert-modal";
 import { useState, useCallback } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { deleteProduct, getProducts } from "@/redux/reducer/product-slice";
 import Alert from "../alert-message";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 
 const ProductCard = ({ product, handleEdit }) => {
   const [open, setOpen] = useState(false);
   const [alert, setAlert] = useState(null);
-  const { current_page, pageSize, search } = useSelector(
+  const { current_page, pageSize, search } = useAppSelector(
     (state) => state.products
   );
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const deleteProductFunc = useCallback(() => {
     try {

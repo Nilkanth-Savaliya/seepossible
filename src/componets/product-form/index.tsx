@@ -1,13 +1,13 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import TextField from "../form-fields/text";
-import { useSelector } from "react-redux";
+import { useAppSelector } from "@/redux/hooks";
 
 const ProductForm = ({
   closeSlideOver,
   createProductFunction,
   updateProductFunction,
 }) => {
-  const { currentProduct, isEditProduct } = useSelector(
+  const { currentProduct, isEditProduct } = useAppSelector(
     (state) => state.products
   );
   const [formData, setFormData] = useState({
@@ -105,7 +105,7 @@ const ProductForm = ({
         />
 
         <button className="my-2 primary-button" type="submit">
-          {isEditProduct ? 'Update' : 'Add'}
+          {isEditProduct ? "Update" : "Add"}
         </button>
       </form>
     </div>

@@ -6,6 +6,7 @@ import Pagination from "@/componets/pagination";
 import ProductCard from "@/componets/product-card";
 import ProductForm from "@/componets/product-form";
 import SlideOverPanel from "@/componets/side-over-panel";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import {
   createProduct,
   getProducts,
@@ -15,15 +16,14 @@ import {
   updateProduct,
 } from "@/redux/reducer/product-slice";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 
 const ProductList = () => {
-  const { products, isLoading, isEditProduct, total, current_page, pageSize } =
-    useSelector((state) => state.products);
+  const { products, isEditProduct, total, current_page, pageSize } =
+    useAppSelector((state) => state.products);
   const [alert, setAlert] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [isSlideOverOpen, setIsSlideOverOpen] = useState(false);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     const debounceTimeout = setTimeout(() => {
@@ -96,7 +96,7 @@ const ProductList = () => {
   };
 
   const updateProductFunction = (id, productData) => {
-    dispatch(updateProduct({ id: id, productData: productData }))
+    dispatch(updateProduct({ id: id, data: productData }))
       .unwrap()
       .then(() => {
         setAlert({

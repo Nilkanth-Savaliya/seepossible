@@ -2,14 +2,14 @@
 import Select from "@/componets/form-fields/select";
 import TextField from "@/componets/form-fields/text";
 import useValidation from "@/hooks/useValidation";
+import { useAppDispatch } from "@/redux/hooks";
 import { signup } from "@/redux/reducer/user-slice";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCallback, useState } from "react";
-import { useDispatch } from "react-redux";
 
 const Signup = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const router = useRouter();
   const [formData, setFormData] = useState({
     name: "",

@@ -5,11 +5,9 @@ import useValidation from "@/hooks/useValidation";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCallback, useState } from "react";
-import { useDispatch } from "react-redux";
 import Cookies from "js-cookie";
 
 const Login = () => {
-  const dispatch = useDispatch();
   const router = useRouter();
 
   const [formData, setFormData] = useState({ email: "", password: "" });
